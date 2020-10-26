@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "desarrollo": "nodemon app.js",
-  "start": "node app.js"},
+    "desarrollo": "nodemon app.js",
+    "start": "node app.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Valentina-vr/Delilah_rest-.git"
