@@ -1,12 +1,20 @@
-const autorization = (req, res, next) => {​​
-    console.log(req.usuario);
-    const {​​ isAdmin }​​ = req.usuario;
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-    if (isAdmin !== 1) {​​
-        res.status(401).json('Permisos insuficientes');
-    }​​ else {​​
-        next();
-    }​​
-}​​;
+const autentication = (req, res, next) => {
+	let authorization = req.headers.authorization;
+	if (authorization) {
+		let token = authorization.split(' ')[1];
+		jwt.verify(token, process.env.SECRET, (error, decoded) => {
+			if (error) {
+				res.status(401).json('token no valido');
+			}
+			req.usuario = decoded;
+			next();
+		});
+	} else {
+		res.status(401).json('por favor ingresa con tu usuario y contraseña');
+	}
+};
 
-module.exports = autorization;
+module.exports = autentication;

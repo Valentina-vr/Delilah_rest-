@@ -1,5 +1,3 @@
-//const jwt = require('jsonwebtoken');
-//const router = express.Router;
 const express = require('express');
 const helmet = require('helmet');
 require('dotenv').config();
@@ -7,7 +5,7 @@ require('dotenv').config();
 //Database
 const db = require('./database/index');
 
-//Sincronizar las tablas de la base de datos
+//Model synchronization
 const requestModel = require('./database/model_request/requestModel');
 const userModel = require('./database/model_user/userModel');
 const productModel = require('./database/model_product/productModel');
@@ -17,12 +15,22 @@ requestModel.sync();
 productModel.sync();
 orderModel.sync();
 
+//Routes
+const userRoutes = require('./routes/login');
+const productsRoutes = require('./routes/products');
+const ordersRoutes = require('./routes/orders');
+
 //Express
 const app = express();
 app.use(helmet());
 app.use(express.json());
 
-//Iniciando el servidor
+//Routes Implementation
+app.use('/usuarios', userRoutes);
+app.use('/productos', productsRoutes);
+app.use('/pedidos', ordersRoutes);
+
+//Starting the server
 app.listen(process.env.PORT, ()=> {
     console.log('Servidor corriendo por el puerto '+process.env.PORT);
 });

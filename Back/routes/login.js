@@ -1,32 +1,31 @@
 const express = require('express');
-const {​​ createUser, loginUser }​​ = require('../middlewares/controller_user');
-//USERS ROUTES
+const { createUser, loginUser } = require('../middlewares/controller');
+
 
 const router = express.Router();
 
-router.post('/create', (req, res) => {​​
+router.post('/create', (req, res) => {
     const reqUser = req.body;
-    reqUser.isAdmin = false;
+    reqUser.isAdmin = true;
 
     createUser(reqUser)
-        .then((user) => {​​
+        .then((user) => {
             res.status(200).json(user);
-        }​​)
-
-        .catch((error) => {​​
+        })
+        .catch((error) => {
             res.status(error.status).json(error.message);
-        }​​);
-}​​);
+        })
+});
 
-router.post('/login', (req, res) => {​​
-    const {​​ password, email }​​ = req.body;
+router.post('/login', (req, res) => {
+    const { password, email } = req.body;
     loginUser(password, email)
-        .then((jwt) => {​​
+        .then((jwt) => {
             res.status(200).json(jwt);
-        }​​)
-        .catch((error) => {​​
+        })
+        .catch((error) => {
             res.status(error.status).json(error.message);
-        }​​);
-}​​);
+        })
+});
 
 module.exports = router;
