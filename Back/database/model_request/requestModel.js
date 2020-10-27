@@ -1,9 +1,8 @@
-const { request } = require('express');
 const { DataTypes } = require('sequelize');
 const { models } = require('../index');
 const sequelize = require('../index');
-const productModel = require('../model_request/request');
-const userModel = require('../model_user/user');
+const productModel = require('../model_product/productModel');
+const userModel = require('../model_user/userModel');
 
 const requestModel = sequelize.define(
 	'requests',
@@ -30,5 +29,4 @@ const requestModel = sequelize.define(
 
 userModel.hasMany(requestModel);
 requestModel.belongsTo(userModel, {});
-
-modulo.exports = requestModel;
+module.exports = requestModel;

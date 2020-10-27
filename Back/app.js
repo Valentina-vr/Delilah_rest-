@@ -8,10 +8,10 @@ require('dotenv').config();
 const db = require('./database/index');
 
 //Sincronizar las tablas de la base de datos
-const requestModel = require('./database/model_request/request');
-const userModel = require('./database/model_user/user');
-const productModel = require('./database/model_product/product');
-const orderModel = require('./database/model_order/order');
+const requestModel = require('./database/model_request/requestModel');
+const userModel = require('./database/model_user/userModel');
+const productModel = require('./database/model_product/productModel');
+const orderModel = require('./database/model_order/orderModel');
 userModel.sync();
 requestModel.sync();
 productModel.sync();
