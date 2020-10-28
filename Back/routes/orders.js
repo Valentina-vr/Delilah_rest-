@@ -26,7 +26,14 @@ router.post('/create', autentication, (req, res) => {
 //Get request by id
 router.get('/get/:id', autentication, autorization, (req, res) => {
 	let id = req.params.id;
-	findById(id);
+	findById(id)
+	.then((response)=>{
+		res.status(200).json(response);
+	})
+	.catch((error)=>{
+		res.status(error.status).json(error.message);
+	});
+
 });
 
 //Update state of request
@@ -41,13 +48,5 @@ router.patch('/update/:id', autentication, autorization, (req, res) => {
 			res.status(error.status).json(error.message);
 		});
 });
-router.delete('/delete/:id', autentication, autorization, (req, res) => {
-	let id = req.params.id;
-	pedidos.forEach((pedido, index) => {
-		if (pedido.id === parseInt(id)) {
-			pedidos.splice(index, 1);
-		}
-	});
-	res.status(200).json(pedidos);
-});
+
 module.exports = router;

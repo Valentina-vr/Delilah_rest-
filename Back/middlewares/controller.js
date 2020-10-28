@@ -103,31 +103,33 @@ const deleteProduct = (id) => {
 	});
 };
 
+
 //Orders
 // create request
 const createRequest = (data) => {
 	return new Promise((res, rejc) => {
 		if (data.products && Array.isArray(data.products)) {
-			const { products, ...request } = data;
-
-			requestModel
-				.create(request)
-				.then((request) => {
-					products.forEach(async (product) => {
-						try {
-							await request.addProducts(product);
-							res(request);
-						} catch (error) {
-							console.log(error);
-						}
+            const { products, ...request } = data;
+			requestModel.create(request).then(async(request) => {
+				try {
+					products.forEach((product) => {
+						request.addProducts(product.id, { through: { quantity: product.quantity } });
 					});
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+					/* products.forEach(async(product) => {
+						await request.addProducts(product.id);
+					}); */
+					res(request);
+				} catch (error) {
+					console.log(request.id);
+					await requestModel.destroy({ where: { id: request.id } });
+					rejc({ status: 500, message: 'No se pudo crear la orden' });
+				}
+			}).catch((error) => {
+				console.log(error);
+			});
 		} else {
 			rejc({ status: 400, message: 'Campos enviados no validos' });
-		}
+        }
 	});
 };
 
@@ -140,10 +142,10 @@ const findById = (reqid) => {
 			requestModel
 				.findAll({ where: { id: reqid }, include: [productModel, userModel], raw: true, nest: true })
 				.then((response) => {
-					console.log(response);
+					res(response);
 				})
 				.catch((error) => {
-					console.log(error);
+					res(error);
 				});
 		}
 	});
@@ -156,8 +158,9 @@ const updateStateById = (id, data) => {
 			requestModel
 				.update({ state: data.state }, { where: { id: id } })
 				.then((response) => {
+					console.log(response);
 					if (response[0] === 1) {
-						res('Estado de el pedido actualizado');
+						res('¡¡Estado de el pedido actualizado correctamente!!');
 					} else {
 						rejc({ status: 400, message: 'No se Pudo actualizar tu pedido.' });
 					}

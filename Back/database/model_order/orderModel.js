@@ -22,6 +22,10 @@ const orderModel = sequelize.define(
 			},
 			allowNull: false,
 		},
+		quantity: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		}
 	},
 	{ timestamps: false }
 );
