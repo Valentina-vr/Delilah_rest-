@@ -14,7 +14,7 @@ Esta API le permitirá interactuar con nuestro restaurante **Delilah Restó**. p
 
 ## Instalación 🧀
 
-1. [**OPCIONAL**] Ingresa a tu base de datos y y ejecuta el archivo **database.sql**.
+1. [**OPCIONAL**] Ingresa a tu base de datos y y ejecuta el archivo **gift.sql**.
 
 2. Vaya la terminal de VSCode, en este debes asegurarte de estar en la ruta de la carpeta `Back` e instale las dependencias del proyecto ejecutando el comando: 
 
