@@ -1,7 +1,7 @@
-/*Creacion de la base de datos*/
+/*creating the database*/
 CREATE DATABASE `delilah_resto` /*!40100 DEFAULT CHARACTER SET utf8mb4 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
-/* Creación de las tablas */
+/*creating the tables in the database */
 
 DROP TABLE IF EXISTS `delilah_resto`.`users`;
 CREATE TABLE `delilah_resto`.`users`
@@ -56,7 +56,7 @@ CREATE TABLE `delilah_resto`.`orders`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-/* Insersión de información en las tablas */
+/*adding the data in the tables */
 
 INSERT INTO `delilah_resto`.`users`
     (`id`,`name`,`email`,`password`,`telephone`,`address`,`isAdmin`)

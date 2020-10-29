@@ -1,13 +1,12 @@
 const auntentication = require('../middlewares/authentication');
 const productModel = require('../database/model_product/productModel');
 const { createProduct, updateProductById, deleteProduct } = require('../middlewares/controller');
-
 const express = require('express');
 const autorization = require('../middlewares/authorization');
-//PRODUCT ROUTES
 const router = express.Router();
 
-// Get Products
+/*PRODUCTOS*/ 
+// Get all products
 router.get('/getall', auntentication, (req, res) => {
 	productModel
 		.findAll()
@@ -19,7 +18,7 @@ router.get('/getall', auntentication, (req, res) => {
 		});
 });
 
-//Create Product
+// Create product
 router.post('/create', auntentication, autorization, (req, res) => {
 	const data = req.body;
 	createProduct(data)
@@ -31,7 +30,7 @@ router.post('/create', auntentication, autorization, (req, res) => {
 		});
 });
 
-//Update Product
+// Update Product by ID
 router.patch('/update/:id', auntentication, autorization, (req, res) => {
 	let id = req.params.id;
 	let data = req.body;
@@ -43,7 +42,8 @@ router.patch('/update/:id', auntentication, autorization, (req, res) => {
 			res.status(error.status).json(error.message);
 		});
 });
-//Delete Product
+
+// Delete Product by ID
 router.delete('/delete/:id', auntentication, autorization, (req, res) => {
 	let id = req.params.id;
 	let data = req.body;

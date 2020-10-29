@@ -6,7 +6,8 @@ const requestModel = require('../database/model_request/requestModel');
 
 require('dotenv').config();
 
-//Usuarios
+/*USERS*/
+//Login users
 const loginUser = (recibed_password, recibed_email) => {
     return new Promise(async (res, rejc) => {
         if (!recibed_email || !recibed_password) {
@@ -30,6 +31,7 @@ const loginUser = (recibed_password, recibed_email) => {
     });
 };
 
+//Create users
 const createUser = (data) => {
     return new Promise((res, rejc) => {
         if (!data.name || !data.email || !data.password || !data.telephone || !data.address || !data.email) {
@@ -51,7 +53,8 @@ const createUser = (data) => {
     });
 };
 
-//Products
+/*PRODUCTS*/
+// Create product
 const createProduct = (data) => {
 	return new Promise((res, rejc) => {
 		productModel
@@ -69,6 +72,7 @@ const createProduct = (data) => {
 	});
 };
 
+// update product by id
 const updateProductById = (id, data) => {
 	return new Promise((res, rejc) => {
 		productModel
@@ -86,6 +90,7 @@ const updateProductById = (id, data) => {
 	});
 };
 
+// delete product by id
 const deleteProduct = (id) => {
 	return new Promise((res, rejc) => {
 		productModel
@@ -104,7 +109,7 @@ const deleteProduct = (id) => {
 };
 
 
-//Orders
+/* REQUEST */
 // create request
 const createRequest = (data) => {
 	return new Promise((res, rejc) => {
@@ -130,7 +135,8 @@ const createRequest = (data) => {
 	});
 };
 
-//find request by id(controller)
+//find request by id
+
 const findById = (reqid) => {
 	return new Promise((res, rejc) => {
 		if (!reqid) {
@@ -149,6 +155,7 @@ const findById = (reqid) => {
 };
 
 //Update state request
+
 const updateStateById = (id, data) => {
 	return new Promise((res, rejc) => {
 		if (data.hasOwnProperty('state') && id) {

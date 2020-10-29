@@ -7,10 +7,10 @@ const sequelize = new Sequelize('delilah_resto', process.env.USER, process.env.P
 });
 
 sequelize.authenticate().then(()=>{
-    console.log('Base de datos conectada');
+    console.log('Database connected successfully');
 })
 .catch(error => {
-    console.log('Base de datos desconectada');
+    console.log('Database disconnected');
 });
 
 module.exports = sequelize;
