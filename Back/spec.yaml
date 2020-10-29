@@ -1,0 +1,315 @@
+swagger: "2.0"
+info:
+  description: "Esta API le permitirá interactuar con nuestro restaurante Delilah Restó. podrás registrarte, ver el listado de nuestros productos y realizar tu pedido. nuestros administradores podrán recibir y actualizar el estado de los pedidos."
+  version: "1.0.0"
+  title: "Delilah Restó"
+  contact:
+    email: "valentinavilladarendon@gmail.com"
+host: "localhost:3000"
+basePath: "/usuarios/login"
+tags:
+- name: "createUser"
+  description: "Creacion y registro de usuarios"
+- name: "Login"
+  description: "Ingreso de usuarios registrados"
+- name: "createRequests"
+  description: "Creacion de nuevos pedidos"
+- name: "updateRequests"
+  description: "Actualizacion del estado de los pedidos"
+- name: "listRequest"
+  description: "Obtener lista de productos"
+- name: "createProducts"
+  description: "Creacion de un nuevo producto"
+- name: "updateProducts"
+  description: "Actualizacion de productos existentes"
+- name: "deleteProducts"
+  description: "Eliminacion de productos"
+schemes:
+- "http"
+paths:
+  /usuarios/create:
+    post:
+      tags:
+      - "createUser"
+      summary: "Crear un nuevo usuario en el sistema"
+      description: "Nuevo usuario para interactuar con la solución, ya sea administrador o usuario."
+      operationId: "addUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Datos del usuario a registrar"
+        required: true
+        schema:
+          $ref: "#/definitions/createUser"
+      responses:
+        "200":
+          description: "Successfully registered user"
+        "400":
+          description: "Email is already registered, try another" 
+        "406":
+          description: "Please fill all fields"
+        "500":
+          description: "Oh oh, We have server problems, please try again later."
+        
+  /usuarios/login:
+    post:
+      tags:
+      - "Login"
+      summary: "Ingreso de usuarios previamente registrados"
+      description: "Ingreso de usuarios registrados en la solución"
+      operationId: "loginUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Correo y contraseña del usuario registrado"
+        required: true
+        schema:
+          $ref: "#/definitions/login"
+      responses:
+        "200":
+          description: "Successful Entry"
+        "401":
+          description: "Incorrect username or password"   
+        "406":
+          description: "Fields are missing, please fill in completely"
+      security:
+        - bearerAuth: []
+          
+  /pedidos/create:
+    post:
+      tags:
+      - "createRequests"
+      summary: "Crear un nuevo pedido"
+      description: "Creacion de pedidos al restaurante, debe estar autenticado para realizar esta operación"
+      operationId: "addRequest"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Pedido creado"
+        required: true
+        schema:
+          $ref: "#/definitions/createRequest"
+      responses:
+        "200":
+          description: "Successfully registered order"
+        "400":
+          description: "User could not be verified"  
+        "401":
+          description: "You must enter with your username and password to use this service"
+        "406":
+          description: "Invalid fields"  
+        "500":
+          description: "The order could not be created, please try again later"
+        
+      security:
+        - bearerAuth: []  
+  
+  /pedidos/update/{requestId}: 
+    patch:
+      tags:
+      - "updateRequests"
+      summary: "Actualizar pedidos"
+      description: "Actualizar pedidos por Id"
+      operationId: "updateRequest"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "requestId"
+        in: "path"
+        description: "Id del pedido a actualizar"
+        required: true
+        type: "integer"
+      responses:
+        "401":
+          description: "You must enter with your username and password to use this service"
+        "403":
+          description: "insufficient permissions to perform this operation"
+        "404":
+          description: "Data not found, your order could not be updated."
+        "406":
+          description: "Invalid fields"
+        "500":
+          description: "Oh oh, We have server problems, please try again later."
+      security:
+        - bearerAuth: []    
+  
+  /productos/getall:
+    get:
+      tags:
+      - "listRequest"
+      summary: "Obtener lista de todos los productos disponibles"
+      description: "Obtiene la lsita de productos disponibles para los usuarios registrados"
+      operationId: "getProductList"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Consulta exitosa"
+          schema:
+            properties:
+              name:
+                type: "string"
+              description:
+                type: "string"
+              type:
+                type: "string"
+              price:
+                type: "string"
+        "401":
+          description: "You must enter with your username and password to use this service"
+        "500":
+          description: "Oh oh, We have server problems, please try again later."
+          
+  /productos/create:    
+    post:
+      tags:
+      - "createProducts"
+      summary: "Crear un nuevo producto"
+      description: "Creacion de productos"
+      operationId: "createProduct"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Producto"
+        required: true
+        schema:
+          $ref: "#/definitions/createProducts"
+      responses:
+        "200":
+          description: "Product added successfully"
+        "401":
+          description: "You must enter with your username and password to use this service"
+        "403":
+          description: "insufficient permissions to perform this operation"
+        "406":
+          description: "Por favor llene todos los campos"  
+        "500":
+          description: "Oh oh, We have server problems, please try again later."
+        
+  
+  /productos/update/{productId}:        
+    patch:
+      tags:
+      - "updateProducts"
+      summary: "Actualizar productos"
+      description: "Actualizar productos por Id"
+      operationId: "updateProduct"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "productId"
+        in: "path"
+        description: "Id del producto a actualizar"
+        required: true
+        type: "integer"
+      responses:
+        "401":
+          description: "You must enter with your username and password to use this service"
+        "403":
+          description: "insufficient permissions to perform this operation"
+        "404":
+          description: "Data not found, could not update the product."
+        "500":
+          description: "Oh oh, We have server problems, please try again later."
+  
+  /productos/delete/{productId}:
+    delete:
+      tags:
+      - "deleteProducts"
+      summary: "Eliminar producto"
+      description: "Eliminar producto por ID"
+      operationId: "deleteProduct"
+      parameters:
+      - name: "productId"
+        in: "path"
+        description: "Id del producto a eliminar"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "Product removed successfully"
+        "401":
+          description: "You must enter with your username and password to use this service"
+        "403":
+          description: "insufficient permissions to perform this operation"
+        "404":
+          description: "Product not found, please check the fields"
+        "500":
+          description: "Oh oh, We have server problems, please try again later"  
+          
+definitions:
+  createUser:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      telephone:
+        type: "string"
+      address:
+        type: "string"
+      isAdmin:
+        type: "boolean"
+
+  login:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+  
+  createRequest:
+    type: "object"
+    properties:
+      payment_method:
+        type: "string"
+      userId: 
+        type: "integer"  
+      products: 
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            productId:
+              type: "integer"
+            quantity:
+              type: "integer"
+          
+  createProducts:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      description:
+        type: "string"
+      type:
+        type: "string"
+      price:
+        type: "string"
+      imagen:
+        type: "string"
+
+securityDefinitions:
+    bearerAuth:
+      type: basic
+      

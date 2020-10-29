@@ -15,7 +15,7 @@ router.get('/getall', auntentication, (req, res) => {
 			res.status(200).json(products);
 		})
 		.catch((error) => {
-			req.status(500);
+			res.status(500);
 		});
 });
 

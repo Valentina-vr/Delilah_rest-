@@ -10,7 +10,7 @@ require('dotenv').config();
 const loginUser = (recibed_password, recibed_email) => {
     return new Promise(async (res, rejc) => {
         if (!recibed_email || !recibed_password) {
-            rejc({ status: 400, message: 'Faltan campos, por favor rellene por completo' });
+            rejc({ status: 400, message: 'Fields are missing, please fill in completely' });
         } else {
             let user = await userModel.findOne({
                 where: { [Op.and]: [{ email: recibed_email }, { password: recibed_password }] },
@@ -21,10 +21,10 @@ const loginUser = (recibed_password, recibed_email) => {
 				if (password === recibed_password) {
 					res(jwt.sign(user.dataValues, process.env.SECRET));
 				} else {
-					rejc({ status: 401, message: 'Contraseña invalida' });
+					rejc({ status: 401, message: 'Incorrect password' });
 				}
             } else {
-                rejc({ status: 401, message: `Usuario ó Contraseña incorrectos` });
+                rejc({ status: 401, message: `Incorrect username or passwords` });
             }
         }
     });
@@ -33,7 +33,7 @@ const loginUser = (recibed_password, recibed_email) => {
 const createUser = (data) => {
     return new Promise((res, rejc) => {
         if (!data.name || !data.email || !data.password || !data.telephone || !data.address || !data.email) {
-            rejc({ status: 400, message: 'Faltan campos, por favor rellene por completo'});
+            rejc({ status: 400, message: 'Please fill all fields'});
         } else {
             userModel
                 .create(data)
@@ -42,9 +42,9 @@ const createUser = (data) => {
                 })
                 .catch((error) => {
                     if (error.fields.email) {
-                        rejc({ status: 400, message: 'El email ya existe' });
+                        rejc({ status: 400, message: 'Email is already registered, try another' });
                     } else {
-                        rejc({ status: 500, message: 'Oh no, tenemos problemas intenta de nuevo más tarde' });
+                        rejc({ status: 500, message: 'Oh oh, We have server problems, please try again later.' });
                     }
                 });
         }
@@ -61,9 +61,9 @@ const createProduct = (data) => {
 			})
 			.catch((error) => {
 				if ((error.name = 'SequelizeValidationError')) {
-					rejc({ status: 400, message: `el campo ${error.errors[0].path} no fue enviado` });
+					rejc({ status: 400, message: `the field: ${error.errors[0].path} was not sent` });
 				} else {
-					rejc({ status: 500, message: 'UPS!! tenemos problemas intenta de nuevo mas tarde' });
+					rejc({ status: 500, message: 'Oh oh, We have server problems, please try again later.' });
 				}
 			});
 	});
@@ -75,13 +75,13 @@ const updateProductById = (id, data) => {
 			.update(data, { where: { id: id } })
 			.then((response) => {
 				if (response[0] === 1) {
-					res('el producto fue actualizado');
+					res('product updated successfully');
 				} else {
-					rejc({ status: 400, message: 'No se Pudo actualizar el producto.' });
+					rejc({ status: 400, message: 'Could not update the product.'});
 				}
 			})
 			.catch((error) => {
-				rejc({ status: 500, message: 'intente de nuevo mas tarde.' });
+				rejc({ status: 500, message: 'Oh oh, We have server problems, please try again later.' });
 			});
 	});
 };
@@ -92,13 +92,13 @@ const deleteProduct = (id) => {
 			.destroy({ where: { id: id } })
 			.then((response) => {
 				if (response === 1) {
-					res('producto eliminado');
+					res('Product removed successfully');
 				} else {
-					rejc({ status: 400, message: 'el producto no existe, no puede ser eliminado' });
+					rejc({ status: 400, message: 'Product not found, please check the fields' });
 				}
 			})
 			.then((error) => {
-				rejc({ status: 500, message: 'UPS!! tenemos problemas intenta de nuevo mas tarde' });
+				rejc({ status: 500, message: 'Oh oh, We have server problems, please try again later' });
 			});
 	});
 };
@@ -115,20 +115,17 @@ const createRequest = (data) => {
 					products.forEach((product) => {
 						request.addProducts(product.id, { through: { quantity: product.quantity } });
 					});
-					/* products.forEach(async(product) => {
-						await request.addProducts(product.id);
-					}); */
 					res(request);
 				} catch (error) {
 					console.log(request.id);
 					await requestModel.destroy({ where: { id: request.id } });
-					rejc({ status: 500, message: 'No se pudo crear la orden' });
+					rejc({ status: 500, message: 'You must enter with your username and password to use this service' });
 				}
 			}).catch((error) => {
 				console.log(error);
 			});
 		} else {
-			rejc({ status: 400, message: 'Campos enviados no validos' });
+			rejc({ status: 400, message: 'Invalid fields' });
         }
 	});
 };
@@ -137,7 +134,7 @@ const createRequest = (data) => {
 const findById = (reqid) => {
 	return new Promise((res, rejc) => {
 		if (!reqid) {
-			rejc({ status: 400, message: 'Faltan el id, por favor envielo' });
+			rejc({ status: 400, message: 'The ID is missing, please send it' });
 		} else {
 			requestModel
 				.findAll({ where: { id: reqid }, include: [productModel, userModel], raw: true, nest: true })
@@ -160,16 +157,16 @@ const updateStateById = (id, data) => {
 				.then((response) => {
 					console.log(response);
 					if (response[0] === 1) {
-						res('¡¡Estado de el pedido actualizado correctamente!!');
+						res('Order status updated successfully');
 					} else {
-						rejc({ status: 400, message: 'No se Pudo actualizar tu pedido.' });
+						rejc({ status: 400, message: 'Could not update your order.' });
 					}
 				})
 				.catch((error) => {
-					rejc({ status: 500, message: 'intente de nuevo mas tarde.' });
+					rejc({ status: 500, message: 'Oh oh, We have server problems, please try again later.' });
 				});
 		} else {
-			rejc({ status: 400, message: 'Campos no validos' });
+			rejc({ status: 400, message: 'Invalid fields' });
 		}
 	});
 };

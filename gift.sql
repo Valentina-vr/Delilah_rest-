@@ -5,56 +5,55 @@ CREATE DATABASE `delilah_resto` /*!40100 DEFAULT CHARACTER SET utf8mb4 */ /*!800
 
 DROP TABLE IF EXISTS `delilah_resto`.`users`;
 CREATE TABLE `delilah_resto`.`users`
-(   
-    `id` smallint NOT NULL AUTO_INCREMENT,
+(
+    `id` int NOT NULL AUTO_INCREMENT,
     `name` varchar(50) NOT NULL,
-    `email` varchar(50) NOT NULL,
-    `password` varchar(20) NOT NULL,
+    `email` varchar(255) NOT NULL,
+    `password` varchar(255) NOT NULL,
     `telephone` varchar(255) NOT NULL,
-    `address` varchar(100) NOT NULL,
-    `isAdmin` boolean NOT NULL,
-    PRIMARY KEY(`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+    `address` varchar(255) NOT NULL,
+    `isAdmin` tinyint(1) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `delilah_resto`.`products`;
 CREATE TABLE `delilah_resto`.`products` 
 (
-    `id` smallint NOT NULL AUTO_INCREMENT,
-    `name` varchar(60) NOT NULL,
+    `id` int NOT NULL AUTO_INCREMENT,
+    `name` varchar(50) NOT NULL,
     `description` varchar(255) NOT NULL,
     `type` varchar(255) NOT NULL,
-    `price` varchar(20) NOT NULL,
-    `image` varchar(255) NOT NULL,
+    `price` varchar(255) NOT NULL,
+    `imagen` varchar(255) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `delilah_resto`.`requests`;
 CREATE TABLE `delilah_resto`.`requests` 
 (
     `id` int NOT NULL AUTO_INCREMENT,
-    `userId` smallint DEFAULT NULL,
+    `userId` int NOT NULL,
     `request_date` datetime NOT NULL,
     `state` varchar(255) NOT NULL,
-    `Pay_method` varchar(255) NOT NULL,
+    `pay_method` varchar(255) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `userId` (`userId`),
-    CONSTRAINT `requests_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
+    CONSTRAINT `requests_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `delilah_resto`.`orders`;
 CREATE TABLE `delilah_resto`.`orders` 
 (
     `requestId` int NOT NULL,
-    `productId` smallint NOT NULL,
+    `productId` int NOT NULL,
     `quantity` int NOT NULL,
-    `createdAt` datetime NOT NULL,
-    `updatedAt` datetime NOT NULL,
-    
-    PRIMARY KEY (`productId`,`requestId`),
-    KEY `requestId` (`requestId`),
-    CONSTRAINT `order_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `order_ibfk_2` FOREIGN KEY (`requestId`) REFERENCES `requests` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    PRIMARY KEY (`requestId`,`productId`),
+    UNIQUE KEY `orders_requestId_productId_unique` (`requestId`,`productId`),
+    KEY `productId` (`productId`),
+    CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`requestId`) REFERENCES `requests` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 /* Insersión de información en las tablas */
@@ -71,7 +70,7 @@ VALUES
     ;
 
 INSERT INTO `delilah_resto`.`products`
-    (`id`,`name`,`description`,`type`,`price`,`image`)
+    (`id`,`name`,`description`,`type`,`price`,`imagen`)
 VALUES
     ('1', 'Hamburguesa', 'Bread with meat, tomato, bacon and cheese', '1', '30000', 'https://www.hosteleriasalamanca.es/fotos/1558942005.6261.jpg'),
     ('2', 'Hot dog', 'sausage breada', '2', '15000', 'https://cdn2.cocinadelirante.com/sites/default/files/styles/gallerie/public/images/2020/06/hot-dogs-estilo-sonora.jpg'),
@@ -81,7 +80,7 @@ VALUES
     ;
 
 INSERT INTO `delilah_resto`.`requests`
-    (`id`,`userId`,`request_date`,`state`,`Pay_method`)
+    (`id`,`userId`,`request_date`,`state`,`pay_method`)
 
 VALUES
     ('1','1','2020-11-02 00:50:50', 'new', 'cash'),
@@ -93,11 +92,11 @@ VALUES
     ;
 
 INSERT INTO `delilah_resto`.`orders`
-    (`requestId`,`productId`,`quantity`,`createdAt`,`updatedAt`)
+    (`requestId`,`productId`,`quantity`)
 VALUES
-    ('1','1','3','2020-10-28 03:19:03','2020-10-28 03:19:03'),
-    ('2','2','2','2020-10-28 03:19:03','2020-10-28 03:19:35'),
-    ('3','1','3','2020-10-28 03:25:03','2020-10-28 03:25:03'),
-    ('4','5','5','2020-10-28 03:35:03','2020-10-28 03:40:03'),
-    ('1','3','3','2020-10-28 03:19:03','2020-10-28 03:19:03')
+    ('1','1','3'),
+    ('2','2','2'),
+    ('3','1','3'),
+    ('4','5','5'),
+    ('1','3','3')
     ;
