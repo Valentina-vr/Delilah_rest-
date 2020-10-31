@@ -7,13 +7,13 @@ const autentication = (req, res, next) => {
 		let token = authorization.split(' ')[1];
 		jwt.verify(token, process.env.SECRET, (error, decoded) => {
 			if (error) {
-				res.status(401).json('token no valido');
+				res.status(401).json('invalid token');
 			}
 			req.usuario = decoded;
 			next();
 		});
 	} else {
-		res.status(401).json('por favor ingresa con tu usuario y contraseña');
+		res.status(401).json('please log in with your username and password');
 	}
 };
 

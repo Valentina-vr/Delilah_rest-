@@ -26,9 +26,9 @@ app.use(helmet());
 app.use(express.json());
 
 //Routes Implementation
-app.use('/usuarios', userRoutes);
-app.use('/productos', productsRoutes);
-app.use('/pedidos', ordersRoutes);
+app.use('/users', userRoutes);
+app.use('/product', productsRoutes);
+app.use('/request', ordersRoutes);
 
 //Starting the server
 app.listen(process.env.PORT, ()=> {
