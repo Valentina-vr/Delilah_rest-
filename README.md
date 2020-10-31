@@ -37,3 +37,5 @@ npm start
 ```
 
 Si llegaste hasta aquí es porque ya está todo listo, podrás ejecutar tus respectivas pruebas 😁
+
+En la carpeta Back, encontrarás el documento **spec.yaml** con la documentación de peticiones CRUD de la API.
