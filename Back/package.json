@@ -1,5 +1,5 @@
 {
-  "name": "delilah_rest-",
+  "name": "Data_Warehouse",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Valentina-vr/Delilah_rest-.git"
+    "url": "git+https://github.com/Valentina-vr/Data_Warehouse.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Valentina-vr/Delilah_rest-/issues"
+    "url": "https://github.com/Valentina-vr/Data_Warehouse/issues"
   },
-  "homepage": "https://github.com/Valentina-vr/Delilah_rest-#readme",
+  "homepage": "https://github.com/Valentina-vr/Data_Warehouse#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

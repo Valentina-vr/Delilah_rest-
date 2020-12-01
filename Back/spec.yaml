@@ -137,6 +137,15 @@ paths:
         required: true
         schema:
           type: integer
+      requestBody:
+        description: Actualizar estado del pedido
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: "string"
       responses:
         401:
           description: You must enter with your username and password to use this service.
@@ -175,7 +184,7 @@ paths:
         500:
           description: Oh oh, we have server problems, please try again later
           content: {}
-  /products/create:
+  /product/create:
     post:
       tags:
       - Create Product
@@ -220,6 +229,13 @@ paths:
         required: true
         schema:
           type: integer
+      requestBody:
+        description: Actualizar caracteristicas del producto
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createProducts"
+              
       responses:
         401:
           description: Debes ingresar con tu usuario y contraseña para utilizar este
@@ -234,7 +250,7 @@ paths:
         500:
           description: Oh oh, we have server problems, please try again later
           content: {}
-  /products/delete/{productId}:
+  /product/delete/{productId}:
     delete:
       tags:
       - Delete Products
