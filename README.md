@@ -1,10 +1,10 @@
-# Delilah Restó 🍎
+# 🍎 Delilah Restó 
 
 Bienvenidos,
 
 Esta API le permitirá interactuar con nuestro restaurante **Delilah Restó**. podrás registrarte, ver el listado de nuestros productos y realizar tu pedido. nuestros administradores podrán recibir y actualizar el estado de los pedidos.
 
-## Pre-requisitos de nuestra API 🥩
+## 🥩 Pre-requisitos de nuestra API 
 
 1. Instale y configure un servidor de base de datos [MYSQL].
 2. Debe contar con editor de código, te recomiendo VSCode.
@@ -12,7 +12,7 @@ Esta API le permitirá interactuar con nuestro restaurante **Delilah Restó**. p
 4. Instale la librería [Dotenv]().
 5. [**Opcional**] Necesitará de una herramienta para probar la API, te recomiendo [Postman]().
 
-## Instalación 🧀
+## 🧀 Instalación 
 
 1. [**OPCIONAL**] Ingresa a tu base de datos y y ejecuta el archivo **gift.sql**.
 
@@ -36,6 +36,8 @@ PORT = <puerto en que la aplicacion correrá, este debe ser distinto a la base d
 npm start
 ```
 
-Si llegaste hasta aquí es porque ya está todo listo, podrás ejecutar tus respectivas pruebas 😁
+Si llegaste hasta aquí es porque ya está todo listo, podrás ejecutar tus respectivas pruebas
 
-En la carpeta Back, encontrarás el documento **spec.yaml** con la documentación de peticiones CRUD de la API.
+En la carpeta raíz del proyecto, encontrarás el documento **spec.yaml** con la documentación de peticiones CRUD de la API.
+
+Por [Valentina Villada Rendón](https://www.linkedin.com/in/valentina-villada-rend%C3%B3n/)

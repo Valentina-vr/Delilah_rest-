@@ -28,6 +28,8 @@ tags:
   description: Creacion de un nuevo producto
 - name: Update Products
   description: Actualizacion de productos existentes
+- name: List Orders
+  description: Obtener listado de ordenes que se han realizado
 - name: Delete Products
   description: Eliminacion de productos
 paths:
@@ -247,6 +249,24 @@ paths:
         404:
           description: Data not found, could not update the product.
           content: {}
+        500:
+          description: Oh oh, we have server problems, please try again later
+          content: {}
+          
+  /request/orders:
+    get:
+      tags:
+      - List Orders
+      summary: Obtener lista de todos las ordenes
+      description: Obtiene la lista de todas las ordenes con el producto y la cantidad
+      operationId: getOrders
+      responses:
+        200:
+          description: Successful consultation
+          content:
+            application/json:
+              schema:
+                type: object
         500:
           description: Oh oh, we have server problems, please try again later
           content: {}

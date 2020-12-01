@@ -4,6 +4,7 @@ const { findById, createRequest, updateStateById } = require('../middlewares/con
 //MIDDLEWARES
 const autorization = require('../middlewares/authorization');
 const autentication = require('../middlewares/authentication');
+const orderModel = require('../database/model_order/orderModel');
 
 // ORDER ROUTES
 const router = express.Router();
@@ -48,5 +49,17 @@ router.patch('/update/:id', autentication, autorization, (req, res) => {
 			res.status(error.status).json(error.message);
 		});
 });
+
+router.get('/orders', autentication, (req, res) => {
+	orderModel
+    .findAll()
+    .then((orders) => {
+      res.status(200).json(orders);
+    })
+    .catch((error) => {
+      res.status(500);
+    });
+});
+
 
 module.exports = router;
