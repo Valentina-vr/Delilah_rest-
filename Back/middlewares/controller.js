@@ -178,13 +178,41 @@ const updateStateById = (id, data) => {
 	});
 };
 
+const deleteById = (id) => {
+	return new Promise((res, rej) => {
+	  if (id) {
+		requestsModel
+		  .destroy({ where: { id: id } })
+		  .then((response) => {
+			if (response === 1) {
+			  res("Pedido eliminado");
+			} else {
+			  rejc({
+				status: 404,
+				message: `The order was not found, please verify`,
+			  });
+			}
+		  })
+		  .catch((error) => {
+			rejc({
+			  status: 500,
+			  message: "We have problems, please try again later.",
+			});
+		  });
+	  } else {
+		rejc({ status: 400, message: "Please send the order ID" });
+	  }
+	});
+  };
+
 module.exports = {
     createUser,
     loginUser,
     createProduct,
 	updateProductById,
     deleteProduct,
-    findById,
+	findById,
+	deleteById,
 	createRequest,
 	updateStateById,
 };

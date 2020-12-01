@@ -32,6 +32,8 @@ tags:
   description: Obtener listado de ordenes que se han realizado
 - name: Delete Products
   description: Eliminacion de productos
+- name: Delete Order
+  description: Eliminacion de ordenes
 paths:
   /users/create:
     post:
@@ -186,6 +188,8 @@ paths:
         500:
           description: Oh oh, we have server problems, please try again later
           content: {}
+      security:
+        - bearerAuth: []
   /product/create:
     post:
       tags:
@@ -252,7 +256,8 @@ paths:
         500:
           description: Oh oh, we have server problems, please try again later
           content: {}
-          
+      security:
+        - bearerAuth: []
   /request/orders:
     get:
       tags:
@@ -269,7 +274,38 @@ paths:
                 type: object
         500:
           description: Oh oh, we have server problems, please try again later
-          content: {}
+          content: {}      
+      security:
+        - bearerAuth: []
+  /requests/delete/{requestId}:
+    delete:
+      tags:
+        - Delete Order
+      summary: Eliminar pedido por ID
+      description: Eliminar pedido por ID
+      operationId: deleteRequest
+      parameters:
+        - name: requestId
+          in: path
+          description: Id del pedido a eliminar
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Order removed successfully
+        400:
+          description: Please submit the order ID.
+        401:
+          description: You must enter with your username and password to use this service.
+        403:
+          description: You must have administrator permissions to make this request.
+        404:
+          description: Order not found, please verify
+        500:
+          description: Oh oh, we have problems, please try again later.
+      security:
+        - bearerAuth: []
   /product/delete/{productId}:
     delete:
       tags:
