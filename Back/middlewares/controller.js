@@ -181,7 +181,7 @@ const updateStateById = (id, data) => {
 const deleteById = (id) => {
 	return new Promise((res, rej) => {
 	  if (id) {
-		requestsModel
+		requestModel
 		  .destroy({ where: { id: id } })
 		  .then((response) => {
 			if (response === 1) {

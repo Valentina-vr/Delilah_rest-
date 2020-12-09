@@ -32,7 +32,7 @@ router.get('/get/:id', autentication, autorization, (req, res) => {
 
 });
 
-router.delete("/delete/:id", authentication, authorization, (req, res) => {
+router.delete("/delete/:id",  autentication, autorization, (req, res) => {
 	let id = req.params.id;
 	deleteById(id)
 	  .then((response) => {
